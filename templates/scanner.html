@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NetManS</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-4xl font-bold text-center mb-8 text-blue-600">NetManS</h1>
+        <div class="flex justify-center space-x-4 mb-8">
+            <button id="startButton" onclick="startSniffing()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Start Sniffing</button>
+            <button id="stopButton" onclick="stopSniffing()" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Stop Sniffing</button>
+        </div>
+
+        <div id="packetTable" class="overflow-x-auto bg-white rounded-lg shadow-md p-4 mb-8">
+            <table id="packetList" class="w-full table-auto">
+                <thead>
+                    <tr>
+                        <th class="px-4 py-2 bg-gray-200">Packet Number</th>
+                        <th class="px-4 py-2 bg-gray-200">Date/Time</th>
+                        <th class="px-4 py-2 bg-gray-200">Source IP</th>
+                        <th class="px-4 py-2 bg-gray-200">Destination IP</th>
+                        <th class="px-4 py-2 bg-gray-200">Protocol</th>
+                        <th class="px-4 py-2 bg-gray-200">Info</th>
+                        <th class="px-4 py-2 bg-gray-200">Hash</th>
+                    </tr>
+                </thead>
+                <tbody id="packetRows">
+                </tbody>
+            </table>
+        </div>
+
+        <div id="popupMenu" class="hidden fixed bg-white p-2 rounded shadow-md">
+            <button id="copyButton" class="block w-full text-left px-4 py-2 text-blue-600 hover:bg-gray-200 focus:outline-none">Copy</button>
+            <button id="infoButton" class="block w-full text-left px-4 py-2 text-blue-600 hover:bg-gray-200 focus:outline-none">Info</button>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function startSniffing() {
+            $.get('/start_sniffing', function(response) {
+                console.log(response);
+            });
+        }
+
+        function stopSniffing() {
+            $.get('/stop_sniffing', function(response) {
+                console.log(response);
+            });
+        }
+
+        function updatePacketTable(data) {
+            var tableBody = $('#packetRows');
+            var isScrolledToBottom = tableBody.prop('scrollHeight') - tableBody.scrollTop() === tableBody.outerHeight();
+
+            tableBody.empty();
+
+            $.each(data, function(index, packet) {
+                var row = $('<tr>');
+                row.append($('<td>').text(packet.packet_number));
+                row.append($('<td>').text(packet.datetime));
+                row.append($('<td>').text(packet.source_ip));
+                row.append($('<td>').text(packet.destination_ip));
+                row.append($('<td>').text(packet.protocol));
+                row.append($('<td>').text(packet.info));
+                row.append($('<td>').text(packet.hash));
+                tableBody.append(row);
+            });
+
+            // Scroll to the bottom
+            if (isScrolledToBottom) {
+                var packetTable = $('#packetTable');
+                packetTable.scrollTop(packetTable[0].scrollHeight);
+            }
+        }
+
+        // Periodically update packet table
+        setInterval(function() {
+            $.getJSON('/packets', function(data) {
+                updatePacketTable(data);
+            });
+        }, 1000);  // Update every second
+
+        $(document).ready(function () {
+            $('#packetRows').on('click', 'tr', function (event) {
+                var rowData = {
+                    packet_number: $(this).find('td:eq(0)').text(),
+                    datetime: $(this).find('td:eq(1)').text(),
+                    source_ip: $(this).find('td:eq(2)').text(),
+                    destination_ip: $(this).find('td:eq(3)').text(),
+                    protocol: $(this).find('td:eq(4)').text(),
+                    info: $(this).find('td:eq(5)').text(),
+                    hash: $(this).find('td:eq(6)').text(),
+                };
+
+                showPopupMenu(event.pageX, event.pageY, rowData);
+            });
+
+            function showPopupMenu(x, y, rowData) {
+                var popupMenu = $('#popupMenu');
+                popupMenu.css({ top: y, left: x });
+                popupMenu.removeClass('hidden');
+
+                $('#copyButton').off().on('click', function () {
+                    //copy functionality
+                    copyToClipboard(JSON.stringify(rowData));
+                    console.log('Copy clicked');
+                });
+
+                $('#infoButton').off().on('click', function () {
+                    // Display information in an alert
+                    alert('Packet Information:\n' +
+                          'Packet Number: ' + rowData.packet_number + '\n' +
+                          'Date/Time: ' + rowData.datetime + '\n' +
+                          'Source IP: ' + rowData.source_ip + '\n' +
+                          'Destination IP: ' + rowData.destination_ip + '\n' +
+                          'Protocol: ' + rowData.protocol + '\n' +
+                          'Info: ' + rowData.info + '\n' +
+                          'Hash: ' + rowData.hash);
+                    console.log('Info clicked');
+                });
+            }
+
+            function copyToClipboard(text) {
+                var textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.setAttribute('readonly', '');
+                textarea.style.position = 'absolute';
+                textarea.style.left = '-9999px';
+                document.body.appendChild(textarea);
+
+                textarea.select();
+                document.execCommand('copy');
+
+                document.body.removeChild(textarea);
+            }
+        });
+    </script>
+</body>
+</html>

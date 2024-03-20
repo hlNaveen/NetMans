@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        img {
+            margin-right: 100px;
+            max-width: 80%;
+            max-height: 80vh;
+            width: auto;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-container {
+            display: flex;
+            margin-right: 100px;
+            justify-content: flex-end;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+        }
+
+        .card {
+            
+            background-color: white;
+            padding-top: 160px;
+            padding-bottom: 160px;
+            padding-left: 0px;
+            padding-right: 0px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin: 50px 10px;
+        }
+    </style>
+    <title>NetManS</title>
+</head>
+<body>
+
+    <img src="./img/nature.jpg" alt="Your Image Description">
+
+    <div class="card-container">
+
+        <div class="card">
+            <!-- Card number 1 -->
+            <h2>Card 1</h2>
+            <p>This is the content for the first card.</p>
+        </div>
+
+        <div class="card">
+            <!-- Card number 2 -->
+            <h2>Card 2</h2>
+            <p>This is the content for the second card.</p>
+        </div>
+
+        <div class="card">
+            <!-- Card number 3 -->
+            <h2>Card 3</h2>
+            <p>This is the content for the third card.</p>
+        </div>
+    </div>
+
+</body>
+</html>
