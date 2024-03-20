@@ -56,7 +56,7 @@ def packet_analyzer():
         for packet in sniffed_packets:
             packet_info = {
                 'packet_number': packet_number,
-                'datetime': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                'datetime': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S s"),
                 'source_ip': packet[IP].src,
                 'destination_ip': packet[IP].dst,
                 'protocol': get_protocol_name(packet[IP].proto),
