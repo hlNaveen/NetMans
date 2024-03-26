@@ -103,9 +103,13 @@ def calculate_hash(packet):
 
 if __name__ == '__main__':
 
-    subprocess.run(['sudo', 'chmod', '766', '/dev/bpf2'])       # System Permission
+    # System Permission
+    subprocess.run(['sudo', 'chmod', '766', '/dev/bpf2'])
     subprocess.run(['sudo', 'chmod', '766', '/dev/bpf1'])
     subprocess.run(['sudo', 'chmod', '766', '/dev/bpf0'])
+    
+    print("NOTE: Make sure to run `setup.sh` to fix permission issues for packet sniffer.")
+    print("\tsudo ./setup.sh")
 
 
     webbrowser.open("http://127.0.0.1:5000/")     # Browser auto open 
