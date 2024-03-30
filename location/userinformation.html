@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Location and Time Info</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+        .container {
+            text-align: center;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        p {
+            margin-bottom: 10px;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        .button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Your Information</h1>
+        <p id="date"></p>
+        <p id="time"></p>
+        <p id="location"></p>
+        <p id="device"></p>
+        <h2>Saved Logins</h2>
+        <div id="savedLogins"></div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            var dateElement = document.getElementById('date');
+            var timeElement = document.getElementById('time');
+            var locationElement = document.getElementById('location');
+            var deviceElement = document.getElementById('device');
+            var savedLoginsElement = document.getElementById('savedLogins');
+
+            // Get date and time
+            var date = new Date();
+            var dateString = 'Date: ' + date.toDateString();
+            var timeString = 'Time: ' + date.toLocaleTimeString();
+
+            dateElement.textContent = dateString;
+            timeElement.textContent = timeString;
+
+            // Get location
+            fetch('https://ipapi.co/json/')
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(data) {
+                    var locationString = 'Location: ' + data.city + ', ' + data.region + ', ' + data.country_name;
+                    locationElement.textContent = locationString;
+
+                    // Save to localStorage
+                    var loginInfo = JSON.parse(localStorage.getItem('loginInfo')) || [];
+                    loginInfo.push({
+                        date: dateString,
+                        time: timeString,
+                        location: locationString,
+                        device: navigator.userAgent
+                    });
+                    localStorage.setItem('loginInfo', JSON.stringify(loginInfo));
+
+                    // Display saved logins
+                    var loginsHTML = '';
+                    loginInfo.forEach(function(login, index) {
+                        loginsHTML += '<button class="button" onclick="alert(\'' + 'Login ' + (index + 1) + '\\n' + login.date + '\\n' + login.time + '\\n' + login.location + '\\n' + login.device + '\')">Login ' + (index + 1) + '</button>';
+                    });
+                    savedLoginsElement.innerHTML = loginsHTML;
+                })
+                .catch(function(error) {
+                    console.log('Error:', error);
+                });
+
+            // Get device details
+            var deviceString = 'Device: ' + navigator.userAgent;
+            deviceElement.textContent = deviceString;
+        };
+    </script>
+</body>
+</html>

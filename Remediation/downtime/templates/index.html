@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Downtime Checker</title>
+    <!-- Google Fonts for better typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- Google Charts API -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            line-height: 1.6;
+        }
+        .navbar {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,.1);
+            padding: 1rem;
+            text-align: center;
+        }
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #333;
+        }
+        .container {
+            padding: 2rem;
+            max-width: 800px; /* Adjusted maximum width for better layout */
+            margin: 2rem auto;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,.1);
+            border-radius: 8px;
+        }
+        .card-title {
+            margin: 0;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+        }
+        .status-circle {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        .red {
+            background-color: #ff5c5c;
+        }
+        .green {
+            background-color: #4caf50;
+        }
+        #status-text {
+            font-size: 1rem;
+        }
+        .fault-message {
+            color: #ff0000;
+            font-weight: bold;
+        }
+        /* Style for the chart container */
+        #chart_div {
+            width: 100%;
+            height: 400px; /* Reduced height for better layout */
+            margin-top: 2rem; /* Added margin-top for better separation */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <span class="navbar-brand">Network Downtime Checker</span>
+    </div>
+
+    <div class="container">
+        <h5 class="card-title">Network Status</h5>
+        <div>
+            Network: <span id="network-status" class="status-circle"></span>
+            <span id="status-text">Loading...</span>
+        </div>
+        <div class="fault-message" id="fault-message"></div>
+        <!-- Container for the chart -->
+        <div id="chart_div"></div>
+    </div>
+
+    <script>
+        // Load the Visualization API and the corechart package.
+        google.charts.load('current', {'packages':['corechart']});
+
+        // Set a callback to run when the Google Visualization API is loaded.
+        google.charts.setOnLoadCallback(drawChart);
+
+        // Define global variables to track downtime and faults
+        var downtime = 0;
+        var faults = [];
+
+        // Callback that creates and populates a data table,
+        // instantiates the line chart, passes in the data and
+        // draws it.
+        function drawChart() {
+            // Create the data table.
+            var data = new google.visualization.DataTable();
+            data.addColumn('datetime', 'Time');
+            data.addColumn('number', 'Downtime');
+
+            // Set initial chart options
+            var options = {
+                title: 'Network Downtime in Real-time',
+                titleTextStyle: {
+                    color: '#333',
+                    fontSize: 20,
+                    fontWeight: 'bold'
+                },
+                width: '100%',
+                height: '100%',
+                chartArea: {
+                    width: '80%',
+                    height: '80%'
+                },
+                hAxis: {
+                    title: 'Time',
+                    titleTextStyle: {
+                        color: '#333',
+                        fontSize: 16,
+                        bold: true
+                    },
+                    format: 'HH:mm:ss',
+                    textStyle: {
+                        color: '#333'
+                    },
+                    gridlines: {
+                        color: '#eee'
+                    },
+                    minorGridlines: {
+                        units: {
+                            seconds: {interval: 1},  // Set the interval between gridlines to 1 second
+                            minutes: {interval: 1},  // Set the interval between gridlines to 1 minute
+                            hours: {interval: 1},    // Set the interval between gridlines to 1 hour
+                            days: {interval: 1}      // Set the interval between gridlines to 1 day
+                        }
+                    }
+                },
+                vAxis: {
+                    title: 'Downtime',
+                    titleTextStyle: {
+                        color: '#333',
+                        fontSize: 16,
+                        bold: true
+                    },
+                    minValue: 0,
+                    textStyle: {
+                        color: '#333'
+                    },
+                    gridlines: {
+                        color: '#eee'
+                    }
+                },
+                legend: {
+                    position: 'none'
+                },
+                backgroundColor: '#f7f7f7',
+                colors: ['#4caf50'], // Green color for the line
+                curveType: 'function', // Apply a more pronounced curve styling
+                animation: {
+                    startup: true,
+                    duration: 500, // Increase the duration for smoother transition
+                    easing: 'linear' // Use linear easing for smoother animation
+                }
+            };
+
+            // Instantiate and draw our chart, passing in some options.
+            var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+            // Draw the chart with the initial data
+            chart.draw(data, options);
+
+            // Update the chart in real-time with data
+            setInterval(function() {
+                // Normally you would make a server request here, but we will just generate random data
+                var time = new Date();
+                var value = Math.random() * 100; // Random value between 0 and 100
+                data.addRow([time, value]); // Add a new data point
+
+                // Dynamically adjust hAxis min and max values
+                var maxTime = time.getTime();
+                var minTime = maxTime - (5 * 60 * 100); // 5 minutes in milliseconds
+                options.hAxis.viewWindow = {
+                    min: new Date(minTime),
+                    max: new Date(maxTime)
+                };
+
+                chart.draw(data, options); // Redraw the chart
+            }, 1000); // Update every second
+        }
+
+        // Function to update network status
+        function updateStatus() {
+            $.getJSON('/status', function(data) {
+                var statusCircle = $('#network-status');
+                var statusText = $('#status-text');
+                var faultMessage = $('#fault-message');
+
+                if (data.status === 'up') {
+                    statusCircle.removeClass('red').addClass('green');
+                    statusText.html('Network is up. Response time: <strong>' + data.response_time + ' ms</strong>');
+                    // If there are no faults, clear the fault message
+                    faultMessage.text('');
+                } else {
+                    statusCircle.removeClass('green').addClass('red');
+                    statusText.text('Network is down');
+                    // Track downtime
+                    downtime += 5; // Assuming downtime every 5 seconds
+                    // Add fault message
+                    faults.push('Network is down at ' + new Date().toLocaleTimeString());
+                    faultMessage.html('<strong>Faults:</strong><br>' + faults.join('<br>'));
+                }
+            });
+        }
+
+        // Execute functions when document is ready
+        $(document).ready(function() {
+            setInterval(updateStatus, 500); // Update every 5 seconds
+            updateStatus(); // Initial update
+        });
+    </script>
+</body>
+</html>

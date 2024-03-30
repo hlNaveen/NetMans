@@ -12,6 +12,10 @@ app = Flask(__name__)
 packets = []
 sniffing = False
 
+@app.route('/location')
+def index():
+    return render_template('userinformation.html')   #new information collecting modifying
+
 @app.route('/')
 def index():
     return render_template('index.html')
