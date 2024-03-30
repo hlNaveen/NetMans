@@ -4,13 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NetmanS</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
-<script>
-    function redirectToScanner(){
-        window.location.assign("/scanner");
-    }
-</script>
 <body>
     <header>
         <h1>NetmanS</h1>
@@ -78,7 +73,7 @@
         </div>
         <!-- Network Alarms and Events section -->
         <div class="card alarms">
-            <div class="card-inner" id="network-alarms" onclick="redirectToScanner()">
+            <div class="card-inner">
                 <h2>Network Alarms and Events</h2>
                 <ul>
                     <li>Router 1: High CPU Usage</li>
@@ -86,9 +81,16 @@
                 </ul>
             </div>
         </div>
+        <!-- Notification and Alert section -->
+        <div class="card notification-alert">
+            <div class="card-inner">
+                <h2>Notification and Alert</h2>
+                <p>This is where you can display notifications and alerts.</p>
+            </div>
+        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
-    <script src="/static/scripts.js"></script>
+    <script src="scripts.js"></script>
 </body>
 </html>
