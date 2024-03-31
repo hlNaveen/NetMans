@@ -1,5 +1,6 @@
 from flask import Flask, render_template, jsonify
 import ping3
+import webbrowser
 
 app = Flask(__name__)
 
@@ -23,4 +24,5 @@ def status():
     return jsonify(result)
 
 if __name__ == "__main__":
+    webbrowser.open("http://127.0.0.1:5000/")     # Browser auto open 
     app.run(debug=True)

@@ -188,7 +188,7 @@
 
                 // Dynamically adjust hAxis min and max values
                 var maxTime = time.getTime();
-                var minTime = maxTime - (5 * 60 * 100); // 5 minutes in milliseconds
+                var minTime = maxTime - (5 * 60 * 100); // 0.5 minutes in milliseconds
                 options.hAxis.viewWindow = {
                     min: new Date(minTime),
                     max: new Date(maxTime)
@@ -214,7 +214,7 @@
                     statusCircle.removeClass('green').addClass('red');
                     statusText.text('Network is down');
                     // Track downtime
-                    downtime += 5; // Assuming downtime every 5 seconds
+                    downtime += 5; // Assuming downtime every 0.5 seconds
                     // Add fault message
                     faults.push('Network is down at ' + new Date().toLocaleTimeString());
                     faultMessage.html('<strong>Faults:</strong><br>' + faults.join('<br>'));
@@ -224,7 +224,7 @@
 
         // Execute functions when document is ready
         $(document).ready(function() {
-            setInterval(updateStatus, 500); // Update every 5 seconds
+            setInterval(updateStatus, 500); // Update every 0.5 seconds
             updateStatus(); // Initial update
         });
     </script>
