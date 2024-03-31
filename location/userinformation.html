@@ -64,6 +64,7 @@
             var locationElement = document.getElementById('location');
             var deviceElement = document.getElementById('device');
             var savedLoginsElement = document.getElementById('savedLogins');
+            var loginInfo = [];
 
             // Get date and time
             var date = new Date();
@@ -82,30 +83,47 @@
                     var locationString = 'Location: ' + data.city + ', ' + data.region + ', ' + data.country_name;
                     locationElement.textContent = locationString;
 
-                    // Save to localStorage
-                    var loginInfo = JSON.parse(localStorage.getItem('loginInfo')) || [];
-                    loginInfo.push({
-                        date: dateString,
-                        time: timeString,
-                        location: locationString,
-                        device: navigator.userAgent
-                    });
-                    localStorage.setItem('loginInfo', JSON.stringify(loginInfo));
+                    // Get device details
+                    var deviceString = 'Device: ' + navigator.userAgent;
+                    deviceElement.textContent = deviceString;
 
                     // Display saved logins
-                    var loginsHTML = '';
                     loginInfo.forEach(function(login, index) {
+                        var loginsHTML = '';
                         loginsHTML += '<button class="button" onclick="alert(\'' + 'Login ' + (index + 1) + '\\n' + login.date + '\\n' + login.time + '\\n' + login.location + '\\n' + login.device + '\')">Login ' + (index + 1) + '</button>';
+                        savedLoginsElement.innerHTML += loginsHTML;
                     });
-                    savedLoginsElement.innerHTML = loginsHTML;
                 })
                 .catch(function(error) {
                     console.log('Error:', error);
                 });
 
-            // Get device details
-            var deviceString = 'Device: ' + navigator.userAgent;
-            deviceElement.textContent = deviceString;
+            // Save login information
+            function saveLogin() {
+                fetch('https://ipapi.co/json/')
+                    .then(function(response) {
+                        return response.json();
+                    })
+                    .then(function(data) {
+                        var locationString = 'Location: ' + data.city + ', ' + data.region + ', ' + data.country_name;
+                        var login = {
+                            date: dateString,
+                            time: timeString,
+                            location: locationString,
+                            device: navigator.userAgent
+                        };
+                        loginInfo.push(login);
+                        var loginsHTML = '';
+                        loginsHTML += '<button class="button" onclick="alert(\'' + 'Login ' + loginInfo.length + '\\n' + login.date + '\\n' + login.time + '\\n' + login.location + '\\n' + login.device + '\')">Login ' + loginInfo.length + '</button>';
+                        savedLoginsElement.innerHTML += loginsHTML;
+                    })
+                    .catch(function(error) {
+                        console.log('Error:', error);
+                    });
+            }
+
+            // Call saveLogin function on window load
+            saveLogin();
         };
     </script>
 </body>
