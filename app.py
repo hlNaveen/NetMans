@@ -13,8 +13,7 @@ app = Flask(__name__)
 packets = []
 sniffing = False
 
-# Your VirusTotal API key
-API_KEY = 'dad0a0dcd7056bad49002f7d884763f0fea443cfb902c9b8de2cb648d4b599b6'
+API_KEY = 'dad0a0dcd7056bad49002f7d884763f0fea443cfb902c9b8de2cb648d4b599b6' # My VirusTotal API key
 
 @app.route('/')
 def index():
@@ -108,7 +107,7 @@ def calculate_hash(packet):
     return md5_hash.hexdigest()
 
 def check_virustotal(hash):
-    url = f'https://www.virustotal.com/vtapi/v2/file/report?apikey={API_KEY}&resource={hash}'
+    url = f'https://www.virustotal.com/vtapi/v2/file/report?apikey={API_KEY}&resource={hash}' # virustotal check using hash code.
     response = requests.get(url)
     if response.status_code == 200:
         result = response.json()
