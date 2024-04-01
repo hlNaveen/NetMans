@@ -42,15 +42,23 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         function startSniffing() {
-            $.get('/start_sniffing', function(response) {
-                console.log(response);
-            });
+            $.get('/start_sniffing')
+                .done(function(response) {
+                    console.log(response);
+                })
+                .fail(function(jqXHR, textStatus, errorThrown) {
+                    console.error("Error starting sniffing:", textStatus, errorThrown);
+                });
         }
 
         function stopSniffing() {
-            $.get('/stop_sniffing', function(response) {
-                console.log(response);
-            });
+            $.get('/stop_sniffing')
+                .done(function(response) {
+                    console.log(response);
+                })
+                .fail(function(jqXHR, textStatus, errorThrown) {
+                    console.error("Error stopping sniffing:", textStatus, errorThrown);
+                });
         }
 
         function updatePacketTable(data) {
@@ -81,9 +89,13 @@
 
         // Periodically update packet table
         setInterval(function() {
-            $.getJSON('/packets', function(data) {
-                updatePacketTable(data);
-            });
+            $.getJSON('/packets')
+                .done(function(data) {
+                    updatePacketTable(data);
+                })
+                .fail(function(jqXHR, textStatus, errorThrown) {
+                    console.error("Error updating packet table:", textStatus, errorThrown);
+                });
         }, 1000);  // Update every second
 
         $(document).ready(function () {
