@@ -25,6 +25,7 @@
                         <th class="px-4 py-2 bg-gray-200">Protocol</th>
                         <th class="px-4 py-2 bg-gray-200">Info</th>
                         <th class="px-4 py-2 bg-gray-200">Hash</th>
+                        <th class="px-4 py-2 bg-gray-200">VirusTotal Result</th>
                     </tr>
                 </thead>
                 <tbody id="packetRows">
@@ -67,6 +68,7 @@
                 row.append($('<td>').text(packet.protocol));
                 row.append($('<td>').text(packet.info));
                 row.append($('<td>').text(packet.hash));
+                row.append($('<td>').text(packet.virustotal_result)); // Add VirusTotal result
                 tableBody.append(row);
             });
 
@@ -94,6 +96,7 @@
                     protocol: $(this).find('td:eq(4)').text(),
                     info: $(this).find('td:eq(5)').text(),
                     hash: $(this).find('td:eq(6)').text(),
+                    virustotal_result: $(this).find('td:eq(7)').text() // Add VirusTotal result
                 };
 
                 showPopupMenu(event.pageX, event.pageY, rowData);
@@ -119,7 +122,8 @@
                           'Destination IP: ' + rowData.destination_ip + '\n' +
                           'Protocol: ' + rowData.protocol + '\n' +
                           'Info: ' + rowData.info + '\n' +
-                          'Hash: ' + rowData.hash);
+                          'Hash: ' + rowData.hash + '\n' +
+                          'VirusTotal Result: ' + rowData.virustotal_result); // Include VirusTotal result
                     console.log('Info clicked');
                 });
             }

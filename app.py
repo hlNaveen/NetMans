@@ -1,16 +1,20 @@
 from flask import Flask, render_template, jsonify
-from scapy.layers.inet import IP  # Importing IP class from Scapy
+from scapy.layers.inet import IP
 from scapy.all import *
 import datetime
 import hashlib
 from threading import Thread
 import webbrowser
-import subprocess  
+import subprocess
+import requests
 
 app = Flask(__name__)
 
 packets = []
 sniffing = False
+
+# Your VirusTotal API key
+API_KEY = 'dad0a0dcd7056bad49002f7d884763f0fea443cfb902c9b8de2cb648d4b599b6'
 
 @app.route('/')
 def index():
@@ -44,7 +48,8 @@ def get_packets():
             'destination_ip': packet['destination_ip'],
             'protocol': packet['protocol'],
             'info': packet['info'],
-            'hash': packet['hash']
+            'hash': packet['hash'],
+            'virustotal_result': packet.get('virustotal_result', None)
         }
         packet_data.append(packet_info)
     return jsonify(packet_data)
@@ -63,6 +68,7 @@ def packet_analyzer():
                 'info': packet.summary(),
                 'hash': calculate_hash(packet)
             }
+            packet_info['virustotal_result'] = check_virustotal(packet_info['hash'])
             packets.append(packet_info)
             packet_number += 1
 
@@ -71,8 +77,8 @@ def packet_callback(packet, packet_number):
     datetime_str = current_time.strftime("%Y-%m-%d %H:%M:%S")
     info = packet.summary()
 
-# for degugging
-    print(packet.show())  # Print packet details 
+    # for debugging
+    print(packet.show())  # Print packet details
     print(packet[IP].src)  # Print source IP
     print(packet[IP].dst)  # Print destination IP
 
@@ -101,16 +107,23 @@ def calculate_hash(packet):
     md5_hash = hashlib.md5(packet_bytes)
     return md5_hash.hexdigest()
 
-if __name__ == '__main__':
+def check_virustotal(hash):
+    url = f'https://www.virustotal.com/vtapi/v2/file/report?apikey={API_KEY}&resource={hash}'
+    response = requests.get(url)
+    if response.status_code == 200:
+        result = response.json()
+        if 'positives' in result:
+            return f"{result['positives']} out of {result['total']} scanners detected this file"
+    return "VirusTotal result not available"
 
+if __name__ == '__main__':
     # System Permission
     subprocess.run(['sudo', 'chmod', '766', '/dev/bpf2'])
     subprocess.run(['sudo', 'chmod', '766', '/dev/bpf1'])
     subprocess.run(['sudo', 'chmod', '766', '/dev/bpf0'])
-    
+
     print("NOTE: Make sure to run `setup.sh` to fix permission issues for packet sniffer.")
     print("\tsudo ./setup.sh")
 
-
-    webbrowser.open("http://127.0.0.1:5000/")     # Browser auto open 
+    webbrowser.open("http://127.0.0.1:5000/")  # Browser auto open
     app.run(debug=True)
