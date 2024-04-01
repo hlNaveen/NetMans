@@ -17,18 +17,18 @@
         <h1>NetmanS</h1>
     </header>
     <div class="container">
-        <!-- Inside your HTML -->
-<div class="card dashboard">
-    <div class="card-inner">
-        <h2>Dashboard</h2>
-        <img src="network_chart.png" alt="Network Performance Chart">
-        <div>
-            <button onclick="exportChart()">Export Chart</button>
-            <button onclick="shareInsights()">Share Insights</button>
+        <!-- Dashboard section -->
+        <div class="card dashboard">
+            <div class="card-inner">
+                <h2>Dashboard</h2>
+                <!-- Example chart -->
+                <canvas id="networkChart" width="400" height="200"></canvas>
+                <div>
+                    <button onclick="exportChart()">Export Chart</button>
+                    <button onclick="shareInsights()">Share Insights</button>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-
         <!-- Devices status section -->
         <div class="card devices">
             <div class="card-inner">
@@ -95,7 +95,6 @@
                     </div>
                 </div>
             </div>
-        
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
