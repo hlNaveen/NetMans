@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 import subprocess
+import webbrowser
 
 app = Flask(__name__)
 
@@ -20,4 +21,5 @@ def resolve():
     return result.stdout
 
 if __name__ == '__main__':
+    webbrowser.open("http://127.0.0.1:80")  
     app.run(host='0.0.0.0', port=80)
