@@ -1,21 +1,22 @@
 import os
 import datetime
 import hashlib
-from flask import Flask, render_template, jsonify, request, send_file
-from threading import Thread
-from scapy.all import sniff
-from scapy.layers.inet import IP
-import webbrowser
 import subprocess
+import webbrowser
 import requests
 import matplotlib.pyplot as plt
 import io
 import base64
 import logging
 import csv
+from flask import Flask, render_template, jsonify, request, send_file, flash, redirect, url_for
+from threading import Thread
+from scapy.all import sniff
+from scapy.layers.inet import IP
 
 # Initialize Flask app
 app = Flask(__name__)
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'  # Secret key for flash messages
 
 # Initialize logging
 logging.basicConfig(filename='packet_sniffer.log', level=logging.DEBUG)
@@ -24,7 +25,7 @@ logging.basicConfig(filename='packet_sniffer.log', level=logging.DEBUG)
 packets = []
 sniffing = False
 packet_filter = None
-API_KEY = 'dad0a0dcd7056bad49002f7d884763f0fea443cfb902c9b8de2cb648d4b599b6' # My VirusTotal API key
+API_KEY = 'dad0a0dcd7056bad49002f7d884763f0fea443cfb902c9b8de2cb648d4b599b6'  # My VirusTotal API key
 
 # Route for index page
 @app.route('/')
@@ -42,21 +43,24 @@ def start_sniffing():
     global sniffing
     sniffing = True
     Thread(target=packet_analyzer).start()
-    return jsonify({'success': True})
+    flash('Packet sniffing started successfully', 'success')
+    return redirect(url_for('index'))
 
 # Route to stop packet sniffing
 @app.route('/stop_sniffing')
 def stop_sniffing():
     global sniffing
     sniffing = False
-    return jsonify({'success': True})
+    flash('Packet sniffing stopped', 'success')
+    return redirect(url_for('index'))
 
 # Route to set packet filter
 @app.route('/set_filter', methods=['POST'])
 def set_filter():
     global packet_filter
     packet_filter = request.json.get('filter', None)
-    return jsonify({'success': True})
+    flash('Packet filter set successfully', 'success')
+    return redirect(url_for('index'))
 
 # Route to get packet data
 @app.route('/packets')
