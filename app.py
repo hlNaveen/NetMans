@@ -1,9 +1,10 @@
-from flask import Flask, render_template, jsonify, request
-from scapy.all import *
-from scapy.layers.inet import IP
+import os
 import datetime
 import hashlib
+from flask import Flask, render_template, jsonify, request, send_file
 from threading import Thread
+from scapy.all import sniff
+from scapy.layers.inet import IP
 import webbrowser
 import subprocess
 import requests
@@ -11,6 +12,7 @@ import matplotlib.pyplot as plt
 import io
 import base64
 import logging
+import csv
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -74,6 +76,35 @@ def get_packets():
             }
             packet_data.append(packet_info)
     return jsonify(packet_data)
+
+# Route to export packet data as CSV
+@app.route('/export_packets_csv')
+def export_packets_csv():
+    try:
+        filename = 'packet_data.csv'
+        filepath = os.path.join(os.getcwd(), filename)  # Get current working directory
+        with open(filepath, 'w', newline='') as csvfile:
+            fieldnames = ['Packet Number', 'DateTime', 'Source IP', 'Destination IP', 'Protocol', 'Info', 'Hash', 'VirusTotal Result']
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            writer.writeheader()
+            for packet in packets:
+                if match_packet(packet, packet_filter):
+                    writer.writerow({
+                        'Packet Number': packet['packet_number'],
+                        'DateTime': packet['datetime'],
+                        'Source IP': packet['source_ip'],
+                        'Destination IP': packet['destination_ip'],
+                        'Protocol': packet['protocol'],
+                        'Info': packet['info'],
+                        'Hash': packet['hash'],
+                        'VirusTotal Result': packet.get('virustotal_result', '')
+                    })
+        
+        return send_file(filepath, as_attachment=True)
+    
+    except Exception as e:
+        logging.error(f"Error exporting packet data to CSV: {e}")
+        return jsonify({'error': str(e)}), 500
 
 # Route to generate packet visualization
 @app.route('/visualization')

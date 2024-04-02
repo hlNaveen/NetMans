@@ -12,6 +12,7 @@
         <div class="flex justify-center space-x-4 mb-8">
             <button id="startButton" onclick="startSniffing()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Start Sniffing</button>
             <button id="stopButton" onclick="stopSniffing()" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Stop Sniffing</button>
+            <button id="exportButton" onclick="exportPacketData()" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Export Packet Data</button>
         </div>
 
         <div id="packetTable" class="overflow-x-auto bg-white rounded-lg shadow-md p-4 mb-8">
@@ -59,6 +60,10 @@
                 .fail(function(jqXHR, textStatus, errorThrown) {
                     console.error("Error stopping sniffing:", textStatus, errorThrown);
                 });
+        }
+
+        function exportPacketData() {
+            window.location.href = '/export_packets_csv';
         }
 
         function updatePacketTable(data) {
