@@ -86,6 +86,8 @@
         <div class="fault-message" id="fault-message"></div>
         <!-- Container for the chart -->
         <div id="chart_div"></div>
+        <!-- Button to export logs -->
+        <button onclick="exportLogs()">Export Logs</button>
     </div>
 
     <script>
@@ -220,6 +222,22 @@
                     faultMessage.html('<strong>Faults:</strong><br>' + faults.join('<br>'));
                 }
             });
+        }
+
+        // Function to export logs
+        function exportLogs() {
+            var logs = '';
+            for (var i = 0; i < faults.length; i++) {
+                logs += faults[i] + '\n';
+            }
+            // Download the logs as a text file
+            var element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(logs));
+            element.setAttribute('download', 'network_faults.txt');
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
         }
 
         // Execute functions when document is ready
