@@ -9,6 +9,7 @@ import io
 import base64
 import logging
 import csv
+import ping3
 from flask import Flask, render_template, jsonify, request, send_file, flash, redirect, url_for
 from threading import Thread
 from scapy.all import sniff
@@ -150,6 +151,82 @@ def packet_visualization():
         logging.error(f"Error generating packet visualization: {e}")
         return jsonify({'error': str(e)}), 500
 
+# Troubleshooting
+@app.route('/remediation/troubleshoot')
+def troubleshoot():
+    return render_template('troubleshoot.html')
+
+@app.route('/remediation/troubleshoot/ping', methods=['POST'])
+def ping():
+    hostname = request.form['hostname']
+    result = subprocess.run(['ping', '-c', '4', hostname], capture_output=True, text=True)
+    return result.stdout
+
+@app.route('/remediation/troubleshoot/resolve', methods=['POST'])
+def resolve():
+    hostname = request.form['hostname']
+    result = subprocess.run(['nslookup', hostname], capture_output=True, text=True)
+    return result.stdout
+
+# Downtime
+
+def check_network(host):
+    response = ping3.ping(host)
+    if response is not None:
+        return {"status": "up", "response_time": response}
+    else:
+        return {"status": "down", "response_time": None}
+
+@app.route('/remediation/downtime')
+def downtime():
+    host_to_ping = "example.com"
+    result = check_network(host_to_ping)
+    return render_template('downtime.html', result=result)
+
+@app.route('/remediation/downtime/status')
+def status():
+    host_to_ping = "example.com"
+    result = check_network(host_to_ping)
+    return jsonify(result)
+
+# Data Provider
+
+def get_threats_and_vulnerabilities():
+    try:
+        # Make a request to NVD API
+        response = requests.get('https://services.nvd.nist.gov/rest/json/cves/1.0')
+        if response.status_code == 200:
+            data = response.json()
+            # Extracting CVE descriptions
+            cves = data.get('CVE_Items', [])
+            threats = [cve['cve']['description']['description_data'][0]['value'] for cve in cves]
+            # Extracting CVSS scores
+            vulnerabilities = [f"CVSS Score: {cve['impact']['baseMetricV2']['cvssV2']['baseScore']}" for cve in cves]
+            return threats, vulnerabilities
+        else:
+            # Handle error response
+            return [], []
+    except Exception as e:
+        # Handle exception
+        print(f"Error fetching data from NVD API: {e}")
+        return [], []
+
+@app.route('/dataprovider')
+def dataprovider():
+    return render_template('threat_dashboard.html')  # Updated filename here
+
+@app.route('/dataprovider/get_threats_and_vulnerabilities')
+def get_threats_and_vulnerabilities_route():
+    # Fetch data
+    threats, vulnerabilities = get_threats_and_vulnerabilities()
+    # Return JSON response
+    return jsonify(threats=threats, vulnerabilities=vulnerabilities)
+
+# User Location
+@app.route('/userlocation')
+def userlocation():
+    return render_template('userlocation.html')
+
 # Packet analyzer function
 def packet_analyzer():
     try:
@@ -252,13 +329,13 @@ def check_virustotal(hash):
 
 if __name__ == '__main__':
     try:
-        # System Permission
         subprocess.run(['sudo', 'chmod', '766', '/dev/bpf2'])
         subprocess.run(['sudo', 'chmod', '766', '/dev/bpf1'])
         subprocess.run(['sudo', 'chmod', '766', '/dev/bpf0'])
 
         print("NOTE: Make sure to run `setup.sh` to fix permission issues for packet sniffer.")
         print("\tsudo ./setup.sh")
+
 
         webbrowser.open("http://127.0.0.1:5000/")  # Browser auto open
         app.run(debug=True)
