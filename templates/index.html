@@ -7,8 +7,29 @@
     <link rel="stylesheet" href="/static/index.css">
 </head>
 <script>
+    // Scanner
     function redirectToScanner(){
         window.location.assign("/scanner");
+    }
+
+    // User Info
+    function redirectToUserInfo(){
+        window.location.assign("/userlocation")
+    }
+
+    // Data Provider
+    function redirectToThreats(){
+        window.location.assign("/dataprovider")
+    }
+
+    // Downtime
+    function redirectToDowntime(){
+        window.location.assign("/remediation/downtime")
+    }
+
+    // Troubleshoot
+    function redirectToTroubleShoot(){
+        window.location.assign("/remediation/troubleshoot")
     }
 
     // Sample functions for additional functionalities
@@ -72,7 +93,7 @@
 
         <!-- Health and Performance Statistics section -->
         <div class="card health-performance">
-            <div class="card-inner">
+            <div class="card-inner" onclick="redirectToDowntime()">
                 <h2>Health and Performance Statistics</h2>
                 <p>Router 1 CPU Usage: 60%</p>
                 <p>Switch 1 Memory Usage: 80%</p>
@@ -87,11 +108,11 @@
             </div>
         </div>
 
-        <!-- Inventory Management section -->
+        <!-- TroubleShoot section -->
         <div class="card inventory-management">
-            <div class="card-inner">
-                <h2>Inventory Management</h2>
-                <button onclick="openInventoryManagement()">Open Inventory Management</button>
+            <div class="card-inner" onclick="redirectToTroubleShoot()">
+                <h2>Troubleshoot</h2>
+                <p>Troubleshoot Network Devices</p>
             </div>
         </div>
 
@@ -105,7 +126,7 @@
 
         <!-- Threats and Vulnerabilities section -->
         <div class="card threats-vulnerabilities">
-            <div class="card-inner">
+            <div class="card-inner" onclick="redirectToThreats()">
                 <h2>Threats and Vulnerabilities</h2>
                 <ul id="threatsList">
                     <!-- Threats and vulnerabilities -->
@@ -134,7 +155,7 @@
 
         <!-- User Information (user behavior) -->
         <div class="card user-information">
-            <div class="card-inner">
+            <div class="card-inner" onclick="redirectToUserInfo()">
                 <h2>User Login Information</h2>
                 <p>This is where you can display notifications and alerts.</p>
             </div>
