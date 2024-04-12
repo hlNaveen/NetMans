@@ -10,6 +10,7 @@ import base64
 import logging
 import csv
 import ping3
+import smtp_helper as mail_helper
 from flask import Flask, render_template, jsonify, request, send_file, flash, redirect, url_for
 from threading import Thread
 from scapy.all import sniff
@@ -31,6 +32,8 @@ API_KEY = 'dad0a0dcd7056bad49002f7d884763f0fea443cfb902c9b8de2cb648d4b599b6'  # 
 # Route for index page
 @app.route('/')
 def index():
+    result = mail_helper.send_email('saniduanupama12@gmail.com','Hi Sanidu', 'Hi From Huiya')
+    print(result)
     return render_template('index.html')
 
 # Route for packet sniffer page
