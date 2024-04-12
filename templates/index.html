@@ -3,88 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NetmanS</title>
+    <title>NetManS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Font Awesome for icons -->
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            user-select: none; /* Disable text selection for all elements */
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f9f9f9; /* Light gray background */
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Adjusted font family */
+            background-color: #f5f5f5; /* Light gray background */
             color: #333;
             line-height: 1.6;
             margin: 0;
         }
 
         header {
-            background-color: #000; /* Black header background */
+            background-color: #222; /* Dark gray header background */
             color: #fff;
             text-align: center;
-            padding: 20px;
+            padding: 10px 20px; /* Adjusted padding */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative; /* Added position relative */
+            z-index: 2; /* Ensure header is on top */
         }
 
         h1 {
-            font-size: 2rem;
+            font-size: 1.5rem; /* Adjusted font size */
+            margin-bottom: 0; /* Remove default margin */
+        }
+
+        #login-container {
+            display: flex;
+            align-items: center;
+        }
+
+        #login-container button {
+            padding: 8px;
+            border: none;
+            background-color: transparent;
+            color: #fff;
+            font-size: 24px; /* Increased font size for the user account icon */
+            cursor: pointer;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+            justify-content: center;
+            align-items: center;
+            z-index: 999; /* Ensure modal is on top */
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            width: 300px; /* Adjust width as needed */
+            text-align: center;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            color: #666;
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: #333;
+        }
+
+        #login-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            transition: border-color 0.3s ease;
+        }
+
+        #login-form input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        #login-form button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #login-form button:hover {
+            background-color: #0056b3;
         }
 
         .container {
-            display: flex;
+            display: none; /* Initially hide the container */
             flex-wrap: wrap;
             justify-content: center;
             padding: 20px;
+            position: relative; /* Added position relative */
+            z-index: 1; /* Ensure container is behind the animation */
         }
 
         .card {
             background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2); /* Increased shadow */
             overflow: hidden;
-            width: 300px;
-            height: 300px;
-            margin: 20px;
+            width: 350px;
+            height: 350px;
+            margin: 30px;
             transition: transform 0.3s ease;
+            transform-style: preserve-3d; /* Enable 3D transformation */
+            perspective: 2000px; /* Perspective for 3D effect */
         }
 
         .card:hover {
-            transform: translateY(-5px); /* Lift effect on hover */
+            transform: translateY(-10px) rotateX(5deg); /* Lift and tilt effect on hover */
         }
 
         .card-inner {
             padding: 20px;
+            text-align: center;
+            position: relative;
+            z-index: 1; /* Ensure content stays above the shadow */
         }
 
         h2 {
-            color: #000; /* Darker text color */
+            color: #222; /* Darker text color */
             margin-bottom: 20px;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
         }
 
-        ul {
-            list-style: none;
-            padding: 0;
+        p {
+            color: #555; /* Slightly darker text color */
+            font-size: 1.1rem;
         }
 
-        li {
-            margin-bottom: 10px;
+        .icon {
+            font-size: 60px;
+            margin-bottom: 20px;
         }
 
-        button {
-            background-color: #007bff; /* Blue button */
-            border: none;
-            border-radius: 5px;
-            color: #fff;
-            cursor: pointer;
-            font-size: 16px;
-            padding: 10px 20px;
-            margin-top: 10px;
-            transition: background-color 0.3s ease;
+        .remediation {
+            background-color: #fff; /* White background for Remediation card */
         }
 
-        button:hover {
-            background-color: #0056b3; /* Darker blue on hover */
+        .user-behaviour {
+            background-color: #fff; /* White background for User Behaviour card */
+        }
+
+        .remote-monitor {
+            background-color: #fff; /* White background for Remote Networks card */
+        }
+
+        .remediation .icon {
+            color: #FFD700; /* Yellow color for Remediation card icon */
+        }
+
+        .user-behaviour .icon {
+            color: #66CDAA; /* MediumAquamarine color for User Behaviour card icon */
+        }
+
+        .remote-monitor .icon {
+            color: #6495ED; /* CornflowerBlue color for Remote Networks card icon */
         }
 
         canvas {
@@ -92,145 +196,117 @@
             margin: 0 auto;
             max-width: 100%;
         }
+
+        .animation-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 36px; /* Increased font size */
+            font-weight: bold; /* Added font weight */
+            font-family: 'Apple SD Gothic Neo', 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Apple-like font */
+            color: #333; /* Darker text color */
+            opacity: 0; /* Initially hidden */
+            animation: fadeInOut 3s ease-in-out forwards;
+            z-index: 1; /* Ensure text is above other elements */
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
     <header>
-        <h1>NetmanS</h1>
+        <h1>NetManS</h1>
+        <div id="login-container">
+            <button id="login-btn"><i class="fas fa-user-circle"></i></button>
+        </div>
     </header>
-    <div class="container">
 
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+            <h2>Login</h2>
+            <form id="login-form">
+                <input type="text" name="username" placeholder="Username"><br>
+                <input type="password" name="password" placeholder="Password"><br>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="animation-text">The Best Place for Managing Your Network</div>
+
+    <div class="container">
+        <!-- <a href="./Remediations/remediations.html"> -->
         <div class="card remediation"> <!-- Automated Remediation card -->
             <div class="card-inner">
+                <i class="icon fas fa-cog"></i>
                 <h2>Remediations</h2>
                 <p>Explore automated remediation solutions.</p>
             </div>
         </div>
-        
+        </a>
+
+       <!-- <a href="./UserBehaviour/userbehaviour.html"> -->
         <div class="card user-behaviour"> <!-- User Behaviour card -->
             <div class="card-inner">
+                <i class="icon fas fa-users"></i>
                 <h2>User Behaviour</h2>
                 <p>Understand user behavior patterns.</p>
             </div>
         </div>
+        </a>
 
+     <!--  <a href="./RemoteNetwork/remotenetwork.html"> -->
         <div class="card remote-monitor"> <!-- Remote Networks card -->
             <div class="card-inner">
+                <i class="icon fas fa-wifi"></i>
                 <h2>Remote Networks</h2>
                 <p>Monitor remote networks seamlessly.</p>
             </div>
         </div>
-
+        </a>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script> <!-- Chart.js for charts -->
     <script>
-        // Dummy data for chart
-        const dummyChartData = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [{
-                label: 'Network Bandwidth Usage',
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1,
-                data: [65, 59, 80, 81, 56, 55, 40]
-            }]
-        };
+        const modalOverlay = document.getElementById('modal-overlay');
+        const modalContent = document.querySelector('.modal-content');
+        const loginButton = document.getElementById('login-btn');
 
-        // Dummy function to save configuration
-        function saveConfig() {
-            const selectedDevice = document.getElementById('deviceSelect').value;
-            const config = document.getElementById('configTextarea').value;
-            console.log(`Configuration for ${selectedDevice}: ${config}`);
-            alert('Configuration saved!');
+        // Function to open modal
+        function openModal() {
+            modalOverlay.style.display = 'flex';
         }
 
-        // Dummy function to draw chart
-        function drawChart() {
-            const ctx = document.getElementById('networkChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'line',
-                data: dummyChartData
-            });
+        // Function to close modal
+        function closeModal() {
+            modalOverlay.style.display = 'none';
         }
 
-        // Dummy function to draw real-time graph
-        function drawRealTimeGraph() {
-            const ctx = document.getElementById('realTimeGraph').getContext('2d');
-            const realTimeGraph = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: [],
-                    datasets: [{
-                        label: 'Real-Time Graph',
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        borderWidth: 1,
-                        data: [],
-                    }]
-                },
-                options: {
-                    scales: {
-                        x: {
-                            type: 'realtime',
-                            realtime: {
-                                onRefresh: function(chart) {
-                                    chart.data.labels.push(new Date().toISOString());
-                                    chart.data.datasets[0].data.push(Math.random() * 100);
-                                    if (chart.data.labels.length > 20) {
-                                        chart.data.labels.shift();
-                                        chart.data.datasets[0].data.shift();
-                                    }
-                                },
-                                delay: 2000
-                            }
-                        },
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-        }
+        // Toggle modal visibility when login button is clicked
+        loginButton.addEventListener('click', function() {
+            openModal();
+        });
 
-        // Dummy function to export chart data
-        function exportChart() {
-            const chartData = JSON.stringify(dummyChartData);
-            console.log("Chart data exported:", chartData);
-            alert('Chart data exported!');
-        }
+        // Close modal when clicking outside of it
+        window.addEventListener('click', function(event) {
+            if (event.target === modalOverlay) {
+                closeModal();
+            }
+        });
 
-        // Dummy function to share insights
-        function shareInsights() {
-            const insights = "Check out the network insights on our monitoring platform!";
-            console.log("Insights shared:", insights);
-            alert('Insights shared!');
-        }
-
-        // Dummy function to update threats and vulnerabilities
-        function updateThreatsAndVulnerabilities() {
-            const threatsList = document.getElementById('threatsList');
-
-            // Clear existing list items
-            threatsList.innerHTML = '';
-
-            // Dummy threats and vulnerabilities
-            const threatsData = [
-                { device: 'Router 1', threat: 'Malware Attack' },
-                { device: 'Switch 1', threat: 'DDoS Attack' },
-            ];
-
-            // Populate the list with threats and vulnerabilities
-            threatsData.forEach((threat) => {
-                const listItem = document.createElement('li');
-                listItem.innerHTML = `${threat.device}: ${threat.threat}`;
-                threatsList.appendChild(listItem);
-            });
-        }
-
-        // Call drawChart, drawRealTimeGraph, and updateThreatsAndVulnerabilities functions when the page is loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            drawChart();
-            drawRealTimeGraph();
-            updateThreatsAndVulnerabilities();
+        // After animation is complete, show the container
+        document.querySelector('.animation-text').addEventListener('animationend', function() {
+            document.querySelector('.container').style.display = 'flex';
         });
     </script>
 </body>

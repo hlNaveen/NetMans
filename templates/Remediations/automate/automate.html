@@ -4,143 +4,95 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NetmanS</title>
-    <link rel="stylesheet" href="/static/index.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            width: calc(33.33% - 20px);
+            max-width: 300px;
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-inner {
+            padding: 20px;
+        }
+
+        h2 {
+            font-size: 20px;
+            margin-top: 0;
+        }
+
+        p {
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                width: calc(50% - 20px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                width: calc(100% - 20px);
+            }
+        }
+    </style>
 </head>
-<script>
-    // Scanner
-    function redirectToScanner(){
-        window.location.assign("/scanner");
-    }
-
-    // User Info
-    function redirectToUserInfo(){
-        window.location.assign("/userlocation")
-    }
-
-    // Data Provider
-    function redirectToThreats(){
-        window.location.assign("/dataprovider")
-    }
-
-    // Downtime
-    function redirectToDowntime(){
-        window.location.assign("/remediation/downtime")
-    }
-
-    // Troubleshoot
-    function redirectToTroubleShoot(){
-        window.location.assign("/remediation/troubleshoot")
-    }
-
-    // Sample functions for additional functionalities
-    function openInventoryManagement() {
-        // Functionality to open inventory management section
-    }
-
-    function openRemoteDeviceManagement() {
-        // Functionality to open remote device management section
-    }
-
-    function customizeDashboard() {
-        // Functionality to customize the dashboard layout
-    }
-</script>
-
-
 <body>
     <header>
         <h1>NetmanS</h1>
     </header>
     <div class="container">
 
-        <div class="card remidiation"> <!-- Automated Remidiation card -->
+        <div class="card remidiation"> <!-- Automated Remediation card -->
             <div class="card-inner">
-                <h2>Remidiations</h2>
-                <p></p>
-
+                <h2>Downtime</h2>
+                <p>Monitor Downtime.</p>
             </div>
         </div>
         
-        <div class="card user-behaviour"> <!-- user behaviour -->
+        <div class="card user-behaviour"> <!-- User behavior -->
             <div class="card-inner">
-                <h2>User Behaviour</h2>
-                <p></p>
-
+                <h2>Scanner</h2>
+                <p>Scanner go here.</p>
             </div>
         </div>
 
-        <div class="card user-behaviour"> <!-- remote monitor -->
+        <div class="card remote-monitor"> <!-- Remote monitor -->
             <div class="card-inner">
-                <h2>Remote Networks</h2>
-                <p></p>
-
+                <h2>Threat Dashboard</h2>
+                <p>Threat Dashboard go here.</p>
             </div>
         </div>
 
-<!--
-         Health and Performance Statistics section 
-        <div class="card health-performance">
-            <div class="card-inner" onclick="redirectToDowntime()">
-                <h2>Remidiation</h2>
-                <p>   </p>
-            </div>
-        </div>
-        
-       TroubleShoot section 
-        <div class="card inventory-management">
-            <div class="card-inner" onclick="redirectToTroubleShoot()">
-                <h2>Troubleshoot</h2>
-                <p>Troubleshoot Network Devices</p>
-            </div>
-        </div>
-
-        Remote Device Management section 
-        <div class="card remote-device-management">
-            <div class="card-inner">
-                <h2>Remote Device Management</h2>
-                <button onclick="openRemoteDeviceManagement()">Open Remote Device Management</button>
-            </div>
-        </div>
-
-         Threats and Vulnerabilities section 
-        <div class="card threats-vulnerabilities">
-            <div class="card-inner" onclick="redirectToThreats()">
-                <h2>Threats and Vulnerabilities</h2>
-                <ul id="threatsList">
-                    Threats and vulnerabilities 
-                </ul>
-            </div>
-        </div>
-
-         Packet sniff
-        <div class="card alarms">
-            <div class="card-inner" id="network-alarms" onclick="redirectToScanner()">
-                <h2>Sniff Packets</h2>
-                <ul>
-                    <li>Time Duration   :""</li>
-                    <li>Packets         :""</li>
-                </ul>
-            </div>
-        </div>
-
-         User Information (user behavior) 
-        <div class="card user-information">
-            <div class="card-inner" onclick="redirectToUserInfo()">
-                <h2>User Login Information</h2>
-                <p>This is where you can display notifications and alerts.</p>
-            </div>
-        </div>
-
-        Customization and Extensibility section 
-        <div class="card customization-extensibility">
-            <div class="card-inner">
-                <h2>Customization and Extensibility</h2>
-                <button onclick="customizeDashboard()">Customize Dashboard</button>
-            </div>
-        </div>
-    </div>
--->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
-    <script src="/static/index.js"></script>
 </body>
 </html>

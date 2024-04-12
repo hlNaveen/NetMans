@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NetmanS</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -15,11 +16,12 @@
         }
 
         header {
-            background-color: #333;
+            background-color: #000;
             color: white;
-            padding: 20px 0;
+            padding: 3px 8px; /* Further reduced padding */
             text-align: center;
             margin-bottom: 20px;
+            font-size: 12px; /* Further reduced font size */
         }
 
         .container {
@@ -45,11 +47,18 @@
 
         .card h2 {
             margin-top: 0;
-            color: #555;
+            color: #000;
+            font-size: 20px;
         }
 
         .card p {
-            color: #777;
+            color: #666;
+        }
+
+        .icon {
+            font-size: 36px;
+            margin-bottom: 10px;
+            color: #999; /* Adjust the color to a gray tone */
         }
     </style>
 </head>
@@ -62,17 +71,21 @@
 
         <div class="card vpn"> <!-- VPN card -->
             <div class="card-inner">
+                <i class="fas fa-lock icon"></i>
                 <h2>VPN</h2>
-                <p> </p>
+                <p>Secure access to your network from anywhere.</p>
             </div>
         </div>
         
         <div class="card remote-network"> <!-- Remote network card -->
             <div class="card-inner">
+                <i class="fas fa-globe icon"></i>
                 <h2>Remote Network</h2>
-                <p></p>
+                <p>Monitor and manage your network remotely.</p>
             </div>
         </div>
+
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
     <script src=""></script>
