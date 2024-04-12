@@ -52,45 +52,7 @@
         <h1>NetmanS</h1>
     </header>
     <div class="container">
-        <!-- Dashboard section -->
-        <div class="card dashboard">
-            <div class="card-inner">
-                <h2>Dashboard</h2>
-                <!-- Example chart -->
-                <canvas id="networkChart" width="400" height="200"></canvas>
-                <div>
-                    <button onclick="exportChart()">Export Chart</button>
-                    <button onclick="shareInsights()">Share Insights</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Devices status section -->
-        <div class="card devices">
-            <div class="card-inner">
-                <h2>Device Status</h2>
-                <ul>
-                    <li>Router 1: <span style="color: green;">Online</span></li>
-                    <li>Switch 1: <span style="color: red;">Offline</span></li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Configuration management section -->
-        <div class="card configuration">
-            <div class="card-inner">
-                <h2>Configuration Management</h2>
-                <p>Select a device:</p>
-                <select id="deviceSelect">
-                    <option value="router1">Router 1</option>
-                    <option value="switch1">Switch 1</option>
-                </select>
-                <textarea id="configTextarea" rows="6" placeholder="Configuration..."></textarea>
-                <br>
-                <button onclick="saveConfig()">Save Configuration</button>
-            </div>
-        </div>
-
+        
         <!-- Health and Performance Statistics section -->
         <div class="card health-performance">
             <div class="card-inner" onclick="redirectToDowntime()">
@@ -99,15 +61,7 @@
                 <p>Switch 1 Memory Usage: 80%</p>
             </div>
         </div>
-
-        <!-- Network Performance Monitoring section -->
-        <div class="card network-performance">
-            <div class="card-inner">
-                <h2>Network Performance Monitoring</h2>
-                <!-- Include graphs, charts, or metrics related to network performance -->
-            </div>
-        </div>
-
+        
         <!-- TroubleShoot section -->
         <div class="card inventory-management">
             <div class="card-inner" onclick="redirectToTroubleShoot()">
@@ -131,14 +85,6 @@
                 <ul id="threatsList">
                     <!-- Threats and vulnerabilities -->
                 </ul>
-            </div>
-        </div>
-
-        <!-- Real-Time Graphs section -->
-        <div class="card real-time-graph">
-            <div class="card-inner">
-                <h2>Real-Time Graphs</h2>
-                <canvas id="realTimeGraph" width="400" height="200"></canvas>
             </div>
         </div>
 
