@@ -160,7 +160,7 @@ def packet_visualization():
 #     return render_template('troubleshoot.html')
 
 # @app.route('/remediation/troubleshoot/ping', methods=['POST'])
-# def ping():
+# def ping():j
 #     hostname = request.form['hostname']
 #     result = subprocess.run(['ping', '-c', '4', hostname], capture_output=True, text=True)
 #     return result.stdout
