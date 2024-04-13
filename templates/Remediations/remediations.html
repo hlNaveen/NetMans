@@ -95,7 +95,7 @@
                     <path fill="#ff6600" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM6 13h2v2H6zm0-4h2v2H6zm0-4h2v2H6zm4 8h2v2h-2zm0-4h2v2h-2zm0-4h2v2h-2zm4 8h2v2h-2zm0-4h2v2h-2zm0-4h2v2h-2z"/>
                 </svg>
             </div>
-            <div class="card-inner">
+            <div class="card-inner" onclick="redirectToManualDashboard()">
                 <h2>Manual</h2>
                 <p>Placeholder text for manual card.</p>
             </div>
@@ -115,5 +115,11 @@
         </div>
 
     </div>
+
+    <script>
+        function redirectToManualDashboard(){
+            window.location.assign("/remediation/manual");
+        }
+    </script>
 </body>
 </html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NetmanS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #111;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .card {
+            background-color: #f9f9f9;
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            overflow: hidden;
+            width: 300px;
+            margin: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+
+        .card-inner {
+            padding: 20px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #111;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        p {
+            color: #555;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #0070c9;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 10px 20px;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #005aa7;
+        }
+
+        canvas {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .card-icon-troubleshoot {
+            color: #0070c9; /* Icon color for Troubleshoot card */
+        }
+
+        .card-icon-packet-sniffer {
+            color: #4CAF50; /* Icon color for Packet Sniffer card */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>NetmanS</h1>
+    </header>
+
+    <!-- Network Performance Monitoring section -->
+    <div class="container">
+        <div class="card network-performance">
+            <div class="card-inner">
+                <i class="fas fa-wrench card-icon card-icon-troubleshoot"></i>
+                <h2>Troubleshoot</h2>
+                <p>Resolve network issues quickly and efficiently.</p>
+                <!-- Include graphs, charts, or metrics related to network performance -->
+            </div>
+        </div>
+
+        <!-- Real-Time Graphs section -->
+        <div class="card real-time-graph">
+            <div class="card-inner">
+                <i class="fas fa-chart-line card-icon card-icon-packet-sniffer"></i>
+                <h2>Packet Sniffer</h2>
+                <p>Monitor network traffic in real-time.</p>
+                <canvas id="realTimeGraph" width="400" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

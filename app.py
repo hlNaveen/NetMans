@@ -32,8 +32,8 @@ API_KEY = 'dad0a0dcd7056bad49002f7d884763f0fea443cfb902c9b8de2cb648d4b599b6'  # 
 # Route for index page
 @app.route('/')
 def index():
-    result = mail_helper.send_email('saniduanupama12@gmail.com','Hi Sanidu', 'Hi From Huiya')
-    print(result)
+    # result = mail_helper.send_email('saniduanupama12@gmail.com','Hi Sanidu', 'Hi From Huiya')
+    # print(result)
     return render_template('index.html')
 
 # Route for packet sniffer page
@@ -155,24 +155,38 @@ def packet_visualization():
         return jsonify({'error': str(e)}), 500
 
 # Troubleshooting
-@app.route('/remediation/troubleshoot')
-def troubleshoot():
-    return render_template('troubleshoot.html')
+# @app.route('/remediation/troubleshoot')
+# def troubleshoot():
+#     return render_template('troubleshoot.html')
 
-@app.route('/remediation/troubleshoot/ping', methods=['POST'])
-def ping():
-    hostname = request.form['hostname']
-    result = subprocess.run(['ping', '-c', '4', hostname], capture_output=True, text=True)
-    return result.stdout
+# @app.route('/remediation/troubleshoot/ping', methods=['POST'])
+# def ping():
+#     hostname = request.form['hostname']
+#     result = subprocess.run(['ping', '-c', '4', hostname], capture_output=True, text=True)
+#     return result.stdout
 
-@app.route('/remediation/troubleshoot/resolve', methods=['POST'])
-def resolve():
-    hostname = request.form['hostname']
-    result = subprocess.run(['nslookup', hostname], capture_output=True, text=True)
-    return result.stdout
+# @app.route('/remediation/troubleshoot/resolve', methods=['POST'])
+# def resolve():
+#     hostname = request.form['hostname']
+#     result = subprocess.run(['nslookup', hostname], capture_output=True, text=True)
+#     return result.stdout
+
+# Remediation
+@app.route('/remediation') # Go to remediation Dashboard
+def remediation_home():
+    return render_template('Remediations/remediations.html')
+
+# User Behavior
+@app.route('/userbehavior') # Go to User Behavior Dashboard
+def behaviour_home():
+    return render_template('UserBehaviour/userbehaviour.html')
+
+# Manual Dashboard
+@app.route('/remediation/manual') # Go to Manual Dashboard
+def manual_home():
+    return render_template('Remediations/manual/manual.html')
 
 # Downtime
-
 def check_network(host):
     response = ping3.ping(host)
     if response is not None:
@@ -193,7 +207,6 @@ def status():
     return jsonify(result)
 
 # Data Provider
-
 def get_threats_and_vulnerabilities():
     try:
         # Make a request to NVD API

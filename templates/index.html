@@ -245,9 +245,8 @@
     <div class="animation-text">The Best Place for Managing Your Network</div>
 
     <div class="container">
-        <!-- <a href="./Remediations/remediations.html"> -->
         <div class="card remediation"> <!-- Automated Remediation card -->
-            <div class="card-inner">
+            <div class="card-inner" onclick="redirectToRemediations()"">
                 <i class="icon fas fa-cog"></i>
                 <h2>Remediations</h2>
                 <p>Explore automated remediation solutions.</p>
@@ -257,7 +256,7 @@
 
        <!-- <a href="./UserBehaviour/userbehaviour.html"> -->
         <div class="card user-behaviour"> <!-- User Behaviour card -->
-            <div class="card-inner">
+            <div class="card-inner" onclick="redirectToUserBehavior()">
                 <i class="icon fas fa-users"></i>
                 <h2>User Behaviour</h2>
                 <p>Understand user behavior patterns.</p>
@@ -287,6 +286,16 @@
             modalOverlay.style.display = 'flex';
         }
 
+        // Remediation
+        function redirectToRemediations(){
+            window.location.assign("/remediation");
+        }
+
+        // User Behavior
+        function redirectToUserBehavior(){
+            window.location.assign("/userbehavior");
+        }
+        
         // Function to close modal
         function closeModal() {
             modalOverlay.style.display = 'none';
