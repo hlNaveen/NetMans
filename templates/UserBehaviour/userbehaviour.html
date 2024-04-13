@@ -1,13 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Login Information</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-0xR5C8K5uOSqWx71lCXXFvU63P1Ez8OcLtu+Yeg/O/+2z1RUoBlf3lYVw0q7bZC6bZrLBrJcCMN3eZObG3I1Bw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f0f0f0;
+            background-color: #f8f8f8;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -17,20 +20,22 @@
         .container {
             text-align: center;
             background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 90%;
         }
-        h1 {
-            margin-bottom: 20px;
+        h1, h2 {
+            font-weight: 600;
         }
         p {
-            margin-bottom: 10px;
-            font-size: 18px;
+            margin-bottom: 20px;
+            font-size: 16px;
             line-height: 1.6;
         }
         .button {
-            background-color: #4CAF50; /* Green */
+            background-color: #0070c9;
             border: none;
             color: white;
             padding: 15px 32px;
@@ -38,22 +43,27 @@
             text-decoration: none;
             display: inline-block;
             font-size: 16px;
-            margin: 4px 2px;
+            margin: 10px 0;
             cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
         }
         .button:hover {
-            background-color: #45a049;
+            background-color: #005aa7;
+        }
+        .icon {
+            margin-right: 8px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Your Information</h1>
-        <p id="date"></p>
-        <p id="time"></p>
-        <p id="location"></p>
-        <p id="device"></p>
-        <h2>Saved Logins</h2>
+        <h1><i class="fas fa-user icon"></i>Your Information</h1>
+        <p id="date"><i class="far fa-calendar-alt icon"></i></p>
+        <p id="time"><i class="far fa-clock icon"></i></p>
+        <p id="location"><i class="fas fa-map-marker-alt icon"></i></p>
+        <p id="device"><i class="fas fa-laptop icon"></i></p>
+        <h2><i class="fas fa-history icon"></i>Saved Logins</h2>
         <div id="savedLogins"></div>
     </div>
 
@@ -71,8 +81,8 @@
             var dateString = 'Date: ' + date.toDateString();
             var timeString = 'Time: ' + date.toLocaleTimeString();
 
-            dateElement.textContent = dateString;
-            timeElement.textContent = timeString;
+            dateElement.innerHTML = '<i class="far fa-calendar-alt icon"></i>' + dateString;
+            timeElement.innerHTML = '<i class="far fa-clock icon"></i>' + timeString;
 
             // Get location
             fetch('https://ipapi.co/json/')
@@ -81,16 +91,16 @@
                 })
                 .then(function(data) {
                     var locationString = 'Location: ' + data.city + ', ' + data.region + ', ' + data.country_name;
-                    locationElement.textContent = locationString;
+                    locationElement.innerHTML = '<i class="fas fa-map-marker-alt icon"></i>' + locationString;
 
                     // Get device details
                     var deviceString = 'Device: ' + navigator.userAgent;
-                    deviceElement.textContent = deviceString;
+                    deviceElement.innerHTML = '<i class="fas fa-laptop icon"></i>' + deviceString;
 
                     // Display saved logins
                     loginInfo.forEach(function(login, index) {
                         var loginsHTML = '';
-                        loginsHTML += '<button class="button" onclick="alert(\'' + 'Login ' + (index + 1) + '\\n' + login.date + '\\n' + login.time + '\\n' + login.location + '\\n' + login.device + '\')">Login ' + (index + 1) + '</button>';
+                        loginsHTML += '<button class="button" onclick="alert(\'' + 'Login ' + (index + 1) + '\\n' + login.date + '\\n' + login.time + '\\n' + login.location + '\\n' + login.device + '\')"><i class="fas fa-history icon"></i>Login ' + (index + 1) + '</button>';
                         savedLoginsElement.innerHTML += loginsHTML;
                     });
                 })
@@ -114,7 +124,7 @@
                         };
                         loginInfo.push(login);
                         var loginsHTML = '';
-                        loginsHTML += '<button class="button" onclick="alert(\'' + 'Login ' + loginInfo.length + '\\n' + login.date + '\\n' + login.time + '\\n' + login.location + '\\n' + login.device + '\')">Login ' + loginInfo.length + '</button>';
+                        loginsHTML += '<button class="button" onclick="alert(\'' + 'Login ' + loginInfo.length + '\\n' + login.date + '\\n' + login.time + '\\n' + login.location + '\\n' + login.device + '\')"><i class="fas fa-history icon"></i>Login ' + loginInfo.length + '</button>';
                         savedLoginsElement.innerHTML += loginsHTML;
                     })
                     .catch(function(error) {
