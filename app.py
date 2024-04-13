@@ -12,14 +12,13 @@ import csv
 import ping3
 import smtp_helper as mail_helper
 from flask import Flask, render_template, jsonify, request, send_file, flash, redirect, url_for
-from flask_socketio import SocketIO, emit
 from threading import Thread
 from scapy.all import sniff
 from scapy.layers.inet import IP
 
+# Initialize Flask app
 app = Flask(__name__)
-app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
-socketio = SocketIO(app)
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'  # Secret key for flash messages
 
 # Initialize logging
 logging.basicConfig(filename='packet_sniffer.log', level=logging.DEBUG)
@@ -33,6 +32,8 @@ API_KEY = 'dad0a0dcd7056bad49002f7d884763f0fea443cfb902c9b8de2cb648d4b599b6'  # 
 # Route for index page
 @app.route('/')
 def index():
+    result = mail_helper.send_email('saniduanupama12@gmail.com','Hi Sanidu', 'Hi From Huiya')
+    print(result)
     return render_template('index.html')
 
 # Route for packet sniffer page
@@ -41,19 +42,21 @@ def packet_sniffer():
     return render_template('scanner.html')
 
 # Route to start packet sniffing
-@socketio.on('start_sniffing')
+@app.route('/start_sniffing')
 def start_sniffing():
     global sniffing
     sniffing = True
     Thread(target=packet_analyzer).start()
-    emit('status_update', {'status': sniffing}, broadcast=True)
+    flash('Packet sniffing started successfully', 'success')
+    return redirect(url_for('index'))
 
 # Route to stop packet sniffing
-@socketio.on('stop_sniffing')
+@app.route('/stop_sniffing')
 def stop_sniffing():
     global sniffing
     sniffing = False
-    emit('status_update', {'status': sniffing}, broadcast=True)
+    flash('Packet sniffing stopped', 'success')
+    return redirect(url_for('index'))
 
 # Route to set packet filter
 @app.route('/set_filter', methods=['POST'])
@@ -213,7 +216,7 @@ def get_threats_and_vulnerabilities():
 
 @app.route('/dataprovider')
 def dataprovider():
-    return render_template('threat_dashboard.html')
+    return render_template('threat_dashboard.html')  # Updated filename here
 
 @app.route('/dataprovider/get_threats_and_vulnerabilities')
 def get_threats_and_vulnerabilities_route():
@@ -336,8 +339,9 @@ if __name__ == '__main__':
         print("NOTE: Make sure to run `setup.sh` to fix permission issues for packet sniffer.")
         print("\tsudo ./setup.sh")
 
+
         webbrowser.open("http://127.0.0.1:5000/")  # Browser auto open
-        socketio.run(app)
+        app.run(debug=True)
 
     except Exception as e:
         logging.error(f"Error in main: {e}")
