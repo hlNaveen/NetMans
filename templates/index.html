@@ -266,7 +266,7 @@
 
      <!--  <a href="./RemoteNetwork/remotenetwork.html"> -->
         <div class="card remote-monitor"> <!-- Remote Networks card -->
-            <div class="card-inner">
+            <div class="card-inner" onclick="redirect_to_remote()">
                 <i class="icon fas fa-wifi"></i>
                 <h2>Remote Networks</h2>
                 <p>Monitor remote networks seamlessly.</p>
@@ -299,6 +299,11 @@
         // Function to close modal
         function closeModal() {
             modalOverlay.style.display = 'none';
+        }
+
+        // Redirect to remote
+        function redirect_to_remote(){
+            window.location.assign("/remediation/manual/remotedash");
         }
 
         // Toggle modal visibility when login button is clicked

@@ -16,6 +16,28 @@ from threading import Thread
 from scapy.all import sniff
 from scapy.layers.inet import IP
 
+# Dummy data for network status
+network_status_data = {
+    'status': 'Online',
+    'uptime': '10 days',
+    'connected_devices': [
+        {
+            'hostname': 'Computer 1',
+            'ip_address': '192.168.1.1',
+            'os': 'Windows 10',
+            'cpu': 'Intel Core i7',
+            'ram': '16GB'
+        },
+        {
+            'hostname': 'Computer 2',
+            'ip_address': '192.168.1.2',
+            'os': 'macOS Catalina',
+            'cpu': 'Apple M1',
+            'ram': '8GB'
+        }
+    ]
+}
+
 # Initialize Flask app
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'  # Secret key for flash messages
@@ -185,6 +207,44 @@ def behaviour_home():
 @app.route('/remediation/manual') # Go to Manual Dashboard
 def manual_home():
     return render_template('Remediations/manual/manual.html')
+
+# Packet Scanner
+@app.route('/remediation/manual/scanner') # Go to Packet Scanner
+def packet_scanner():
+    return render_template('Remediations/automate/scanner.html')
+
+# Troubleshoot
+@app.route('/remediation/manual/troubleshoot') # Troubleshoot
+def troubleshoot():
+    return render_template('Remediations/manual/troubleshoot.html')
+
+# Remote Dashboard
+@app.route('/remediation/manual/remotedash') # Remote Dashboard
+def remote_dash():
+    return render_template('RemoteNetwork/remotenetwork.html')
+
+# VPN
+@app.route('/remediation/manual/remotedash/vpn') # VPN
+def vpn():
+    return render_template('RemoteNetwork/vpn.html')
+
+# Monitoring
+@app.route('/remediation/manual/remotedash/monitoring') # Monitoring
+def monitoring():
+    return render_template('RemoteNetwork/monitoring.html', network_status=network_status_data)
+
+# NOTE:- Not Currently Using
+@app.route('/remediation/manual/remotedash/monitoring/action', methods=['POST'])
+def handle_action():
+    card_index = int(request.form['card_index'])
+    action = request.form['action']
+
+    if action == 'delete':
+        del network_status_data['connected_devices'][card_index]
+    elif action == 'connect':
+        pass
+
+    return render_template('RemoteNetwork/monitoring.html', network_status=network_status_data)
 
 # Downtime
 def check_network(host):

@@ -126,7 +126,7 @@
     <!-- Network Performance Monitoring section -->
     <div class="container">
         <div class="card network-performance">
-            <div class="card-inner">
+            <div class="card-inner" onclick="redirect_to_packet_sniffer()">
                 <i class="fas fa-wrench card-icon card-icon-troubleshoot"></i>
                 <h2>Troubleshoot</h2>
                 <p>Resolve network issues quickly and efficiently.</p>
@@ -136,7 +136,7 @@
 
         <!-- Real-Time Graphs section -->
         <div class="card real-time-graph">
-            <div class="card-inner">
+            <div class="card-inner" onclick="redirect_to_troubleshoot()">
                 <i class="fas fa-chart-line card-icon card-icon-packet-sniffer"></i>
                 <h2>Packet Sniffer</h2>
                 <p>Monitor network traffic in real-time.</p>
@@ -144,5 +144,15 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function redirect_to_troubleshoot(){
+            window.location.assign("/remediation/manual/scanner");
+        }
+
+        function redirect_to_packet_sniffer(){
+            window.location.assign("/remediation/manual/troubleshoot");
+        }
+    </script>
 </body>
 </html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remote Network Monitoring VPN</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero {
+            background-color: #f8f8f8;
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 36px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .hero-text {
+            font-size: 20px;
+            color: #666;
+        }
+
+        .main-content {
+            padding: 50px 0;
+        }
+
+        .section-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .vpn-form {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-label {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .footer {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .footer-text {
+            font-size: 14px;
+        }
+
+        .fa-lock {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <div class="container">
+            <h1 class="hero-title">Secure VPN for Remote Network Monitoring</h1>
+            <p class="hero-text">Connect to our VPN service to monitor your network securely from anywhere.</p>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <section class="vpn-form">
+                <h2 class="section-title">Connect to VPN</h2>
+                <form action="vpn_connect.php" method="post" class="form">
+                    <div class="form-group">
+                        <label for="username" class="form-label">Username:</label>
+                        <input type="text" id="username" name="username" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password:</label>
+                        <input type="password" id="password" name="password" class="form-input" required>
+                    </div>
+                    <button type="submit" class="btn-primary"><i class="fas fa-lock"></i> Connect</button>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-text">&copy; 2024 Remote Network Monitoring. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -70,7 +70,7 @@
     <div class="container">
 
         <div class="card vpn"> <!-- VPN card -->
-            <div class="card-inner">
+            <div class="card-inner" onclick="redirect_to_vpn()">
                 <i class="fas fa-lock icon"></i>
                 <h2>VPN</h2>
                 <p>Secure access to your network from anywhere.</p>
@@ -78,7 +78,7 @@
         </div>
         
         <div class="card remote-network"> <!-- Remote network card -->
-            <div class="card-inner">
+            <div class="card-inner" onclick="redirect_to_monitor()">
                 <i class="fas fa-globe icon"></i>
                 <h2>Remote Network</h2>
                 <p>Monitor and manage your network remotely.</p>
@@ -89,5 +89,17 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
     <script src=""></script>
+
+    <script>
+        // VPN
+        function redirect_to_vpn(){
+            window.location.assign("/remediation/manual/remotedash/vpn");
+        }
+
+        // Monitoring
+        function redirect_to_monitor(){
+            window.location.assign("/remediation/manual/remotedash/monitoring");
+        }
+    </script>
 </body>
 </html>
