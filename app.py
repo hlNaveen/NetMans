@@ -15,30 +15,6 @@ from flask import Flask, render_template, jsonify, request, send_file, flash, re
 from threading import Thread
 from scapy.all import sniff
 from scapy.layers.inet import IP
-import subprocess
-import tkinter as tk
-from tkinter import simpledialog
-
-def get_sudo_password():
-    root = tk.Tk()
-    root.withdraw()  # Hide the main window
-    password = simpledialog.askstring("Password", "Enter your sudo password:", show='*')
-    root.destroy()  # Make sure to destroy the root window
-    return password
-
-def sudo_password_gui(command_list):
-    password = get_sudo_password()
-    if password:
-        for command in command_list:
-            try:
-                subprocess.run(['sudo', '-S'] + command, input=f"{password}\n".encode(), check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            except subprocess.CalledProcessError as e:
-                print(f"Failed to execute command: {command}. Error: {str(e)}")
-                return False
-    else:
-        return False
-    return True
-
 
 # Dummy data for network status
 network_status_data = {
@@ -428,23 +404,17 @@ def check_virustotal(hash):
         return "VirusTotal result not available"
 
 if __name__ == '__main__':
-    print("Starting the application...")  # This should only appear once when the script starts
     try:
-        # List all the commands that require sudo permissions
-        commands = [
-            ['chmod', '766', '/dev/bpf0'],
-            ['chmod', '766', '/dev/bpf1'],
-            ['chmod', '766', '/dev/bpf2']
-        ]
-        
-        print("Calling sudo GUI...")  # Confirm this message appears only once
-        sudo_password_gui(commands)
+        subprocess.run(['sudo', 'chmod', '766', '/dev/bpf2'])
+        subprocess.run(['sudo', 'chmod', '766', '/dev/bpf1'])
+        subprocess.run(['sudo', 'chmod', '766', '/dev/bpf0'])
 
-        print("Continuing with Flask app initialization...")
-        print("NOTE: Make sure to run `setup.sh` to fix permission issues for packet sniffers.")
+        print("NOTE: Make sure to run `setup.sh` to fix permission issues for packet sniffer.")
         print("\tsudo ./setup.sh")
-        webbrowser.open("http://127.0.0.1:5000/")  # Automatically open the browser
+
+
+        webbrowser.open("http://127.0.0.1:5000/")  # Browser auto open
         app.run(debug=True)
-        
+
     except Exception as e:
         logging.error(f"Error in main: {e}")
