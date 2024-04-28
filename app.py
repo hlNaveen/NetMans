@@ -414,7 +414,8 @@ if __name__ == '__main__':
 
 
         webbrowser.open("http://127.0.0.1:5000/")  # Browser auto open
-        app.run(debug=True)
+        app.run(debug=True, use_reloader=False)
+
 
     except Exception as e:
         logging.error(f"Error in main: {e}")
