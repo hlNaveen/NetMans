@@ -54,8 +54,8 @@ API_KEY = 'dad0a0dcd7056bad49002f7d884763f0fea443cfb902c9b8de2cb648d4b599b6'  # 
 # Route for index page
 @app.route('/')
 def index():
-    # result = mail_helper.send_email('saniduanupama12@gmail.com','Hi Sanidu', 'Hi From Huiya')
-    # print(result)
+    result = mail_helper.send_email('naveendhananjaya2001@gmail.com','hello there', 'Hello World') # automated email (still under construction)
+    print(result)
     return render_template('index.html')
 
 # Route for packet sniffer page
@@ -414,8 +414,7 @@ if __name__ == '__main__':
 
 
         webbrowser.open("http://127.0.0.1:5000/")  # Browser auto open
-        app.run(debug=True, use_reloader=False)
-
+        app.run(debug=True)
 
     except Exception as e:
         logging.error(f"Error in main: {e}")
