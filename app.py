@@ -15,6 +15,35 @@ from flask import Flask, render_template, jsonify, request, send_file, flash, re
 from threading import Thread
 from scapy.all import sniff
 from scapy.layers.inet import IP
+import time
+
+
+def monitor_and_restart_service(service_name, interval=60):
+    """Monitor and restart the specified service."""
+    while True:
+        if not is_service_running(service_name):
+            restart_service(service_name)
+            send_service_restart_email(service_name)
+        time.sleep(interval)
+
+def is_service_running(service_name):
+    """Check if service is running (placeholder function)."""
+    # You would typically run a system command or use a library to check service status.
+    # For example: result = subprocess.run(['systemctl', 'is-active', service_name], capture_output=True)
+    # return result.stdout.decode().strip() == 'active'
+    return False
+
+def restart_service(service_name):
+    """Restart a given service (placeholder function)."""
+    # Example: subprocess.run(['sudo', 'systemctl', 'restart', service_name])
+    print(f"Restarted {service_name}")
+
+def send_service_restart_email(service_name):
+    """Send an email notification that the service has been restarted."""
+    subject = f"Service Restart Notification: {service_name}"
+    body = f"The service {service_name} has been restarted automatically due to a failure."
+    mail_helper.send_email('your_email@example.com', subject, body)
+    print(f"Notification email sent for {service_name} restart.")
 
 # Dummy data for network status
 network_status_data = {
