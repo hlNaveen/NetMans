@@ -204,23 +204,6 @@ def packet_visualization():
         logging.error(f"Error generating packet visualization: {e}")
         return jsonify({'error': str(e)}), 500
 
-# Troubleshooting
-# @app.route('/remediation/troubleshoot')
-# def troubleshoot():
-#     return render_template('troubleshoot.html')
-
-# @app.route('/remediation/troubleshoot/ping', methods=['POST'])
-# def ping():j
-#     hostname = request.form['hostname']
-#     result = subprocess.run(['ping', '-c', '4', hostname], capture_output=True, text=True)
-#     return result.stdout
-
-# @app.route('/remediation/troubleshoot/resolve', methods=['POST'])
-# def resolve():
-#     hostname = request.form['hostname']
-#     result = subprocess.run(['nslookup', hostname], capture_output=True, text=True)
-#     return result.stdout
-
 # Remediation
 @app.route('/remediation') # Go to remediation Dashboard
 def remediation_home():
