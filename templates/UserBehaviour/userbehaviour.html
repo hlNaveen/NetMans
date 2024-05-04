@@ -68,6 +68,8 @@
     </div>
 
     <script>
+
+        
         window.onload = function() {
             var dateElement = document.getElementById('date');
             var timeElement = document.getElementById('time');
@@ -108,33 +110,11 @@
                     console.log('Error:', error);
                 });
 
-            // Save login information
-            /*
-            function saveLogin() {
-                fetch('https://ipapi.co/json/')
-                    .then(function(response) {
-                        return response.json();
-                    })
-                    .then(function(data) {
-                        var locationString = 'Location: ' + data.city + ', ' + data.region + ', ' + data.country_name;
-                        var login = {
-                            date: dateString,
-                            time: timeString,
-                            location: locationString,
-                            device: navigator.userAgent
-                        };
-                        loginInfo.push(login);
-                        var loginsHTML = '';
-                        loginsHTML += '<button class="button" onclick="alert(\'' + 'Login ' + loginInfo.length + '\\n' + login.date + '\\n' + login.time + '\\n' + login.location + '\\n' + login.device + '\')"><i class="fas fa-history icon"></i>Login ' + loginInfo.length + '</button>';
-                        savedLoginsElement.innerHTML += loginsHTML;
-                    })
-                    .catch(function(error) {
-                        console.log('Error:', error);
-                    });
-            }
-            */
-            // Call saveLogin function on window load
-            // saveLogin();
+                fetch('/send-mail')
+
+            .then(response => response.text())
+            .then(data => console.log(data))
+            .catch(error => console.log('Error:', error));
         };
     </script>
 </body>

@@ -17,7 +17,6 @@ from scapy.all import sniff
 from scapy.layers.inet import IP
 import time
 
-
 def monitor_and_restart_service(service_name, interval=60):
     """Monitor and restart the specified service."""
     while True:
