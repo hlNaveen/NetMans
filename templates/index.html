@@ -323,5 +323,13 @@
             document.querySelector('.container').style.display = 'flex';
         });
     </script>
+
+<h1>Enter your password</h1>
+<form method="post" action="{{ url_for('password') }}">
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password">
+    <button type="submit">Submit</button>
+</form>
+
 </body>
 </html>

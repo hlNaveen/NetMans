@@ -432,6 +432,15 @@ def check_virustotal(hash):
         logging.error(f"Error in checking VirusTotal: {e}")
         return "VirusTotal result not available"
 
+@app.route('/password', methods=['GET', 'POST'])
+def password():
+    if request.method == 'POST':
+        password = request.form['password']
+        # Here you can handle the password, e.g., perform authentication
+        flash('Password received', 'success')
+        return redirect(url_for('index'))
+    return render_template('password.html')
+
 if __name__ == '__main__':
     try:
         subprocess.run(['sudo', 'chmod', '766', '/dev/bpf2'])
