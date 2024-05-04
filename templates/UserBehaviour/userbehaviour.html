@@ -68,8 +68,6 @@
     </div>
 
     <script>
-
-        
         window.onload = function() {
             var dateElement = document.getElementById('date');
             var timeElement = document.getElementById('time');
@@ -109,12 +107,6 @@
                 .catch(function(error) {
                     console.log('Error:', error);
                 });
-
-                fetch('/send-mail')
-
-            .then(response => response.text())
-            .then(data => console.log(data))
-            .catch(error => console.log('Error:', error));
         };
     </script>
 </body>
