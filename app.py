@@ -257,7 +257,7 @@ def handle_action():
 
     return render_template('RemoteNetwork/monitoring.html', network_status=network_status_data)
 
-# Downtime
+# Downtimef
 def check_network(host):
     response = ping3.ping(host)
     if response is not None:
