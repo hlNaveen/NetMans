@@ -33,17 +33,6 @@ A web-based application built with Python (Flask) to provide network discovery, 
 * **Database Persistence:**
     * Uses an SQLite database (`network_tool.db`) to store discovered device information, historical ping metrics, and potentially other data in the future.
 
-## Project Structure
-
-network_management_tool/
-├── app.py                 # Main Flask application, routes, database logic
-├── requirements.txt       # Python dependencies
-├── network_utils/         # Directory for network-related utilities
-│   ├── __init__.py        # Makes 'network_utils' a Python package
-│   └── scanner.py         # Contains ping, port check, SSH functions
-└── templates/
-    └── index.html         # The HTML frontend for the web application
-└── network_tool.db        # SQLite database file (created on first run)
 
 ## Setup and Installation
 
