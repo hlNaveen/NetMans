@@ -1,13 +1,8 @@
-# network_management_tool/network_utils/scanner.py
-# Network scanning and basic management utility functions
-
 import platform
 import subprocess
 import socket
 import os 
-import re # For parsing ping output
-# Paramiko is a Python library for SSHv2 protocol implementation.
-# You'll need to install it: pip install paramiko
+import re
 import paramiko
 
 def ping_ip(ip_address: str) -> dict:
@@ -208,17 +203,21 @@ if __name__ == '__main__':
     print(f"Checking port 443 on google.com: {'Open' if check_tcp_port('google.com', 443) else 'Closed/Filtered'}")
 
     print("\n--- SSH Device Info Example ---")
-    # Replace with your actual SSH server details for testing
-    # ssh_host_test = "your_ssh_host_ip"
-    # ssh_user_test = "your_username"
-    # ssh_pass_test = "your_password"
-    # if ssh_host_test != "your_ssh_host_ip":
+
+    
+    # Replace with actual SSH server details
+    # ssh_host_test = "ssh host ip"
+    # ssh_user_test = "username"
+    # ssh_pass_test = "password"
+    
+    # if ssh_host_test != "_ssh host ip":
     #     info = get_ssh_device_info(ssh_host_test, 22, ssh_user_test, ssh_pass_test)
-    #     if info['success_flag']:
-    #         print(f"OS Info from {ssh_host_test}: {info['os_info']}")
-    #         print(f"Uptime from {ssh_host_test}: {info['uptime_info']}")
-    #     else:
-    #         print(f"Failed to get device info from {ssh_host_test}: {info['error']}")
-    # else:
-    #     print("SSH Device Info test skipped (placeholder credentials).")
+    #     if info['success_flag']:         print(f"OS Info from {ssh_host_test}: {info['os_info']}")                    print(f"Uptime from {ssh_host_test}: {info['uptime_info']}")
+    #     else:                            print(f"Failed to get device info from {ssh_host_test}: {info['error']}")
+    # else:                                print("SSH Device Info test skipped (placeholder credentials).")
+
+
+
+
+    
     print("SSH Device Info test illustrative. Update placeholders in __main__ to test.")
