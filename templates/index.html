@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Network Tool Suite - Elegant UI</title>
+    <title>NetManS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -174,7 +174,7 @@
 <body>
     <div class="main-container">
         <header class="page-header">
-            <h1 class="page-title">Network Intelligence Suite</h1>
+            <h1 class="page-title">Intelligent Network Management Suite</h1>
             <p class="page-subtitle">Discover, Monitor, and Manage Your Network Assets.</p>
         </header>
 
@@ -370,7 +370,7 @@
     </div>
 
     <footer class="footer">
-        <p>&copy; 2024 Network Tool Suite. Clean & Efficient.</p>
+        <p>&copy; 2024 NetManS - Network Management Suite. Clean & Efficient.</p>
         <p class="mt-1"><strong>Disclaimer:</strong> Ensure proper authorization before scanning or managing networks.</p>
     </footer>
 
@@ -488,22 +488,17 @@
             } catch (error) { /* ... error handling ... */ }
         });
 
-        // --- Port Check Logic (remains the same) ---
         checkPortButton.addEventListener('click', async () => { /* ... */ });
         
-        // --- Device Info Fetch Logic (remains the same) ---
         fetchDeviceInfoButton.addEventListener('click', async () => { /* ... */ });
 
-        // --- SSH Command Logic (remains the same) ---
         executeSshButton.addEventListener('click', async () => { /* ... */ });
 
-        // --- Ping History Modal Logic (remains the same) ---
         function openPingHistoryModal(ipAddress) { /* ... */ }
         closePingHistoryModalButton.addEventListener('click', () => pingHistoryModal.classList.remove('active'));
         pingHistoryModal.addEventListener('click', (event) => { if (event.target === pingHistoryModal) pingHistoryModal.classList.remove('active'); });
         function renderPingCharts(labels, rttData, lossData) { /* ... */ }
 
-        // --- Device Inventory Logic ---
         loadInventoryButton.addEventListener('click', async () => {
             deviceInventoryStatusMessage.textContent = 'Loading all known devices...';
             deviceInventoryStatusMessage.className = 'status-info text-center';
@@ -539,9 +534,6 @@
                 deviceInventoryStatusMessage.className = 'status-error text-center';
             }
         });
-        // Placeholder for truncated JS logic from previous responses
-        // Ensure all event listeners and functions for port check, device info, SSH, and ping history are included here
-        // from the previous complete HTML file if they were omitted for brevity in this specific update.
     </script>
 </body>
 </html>
