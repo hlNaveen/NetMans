@@ -1,4 +1,4 @@
-# Network Tool Suite (NeyManS)
+# Network Tool Suite (NetManS)
 
 A web-based application built with Python (Flask) to provide network discovery, monitoring, and basic management capabilities.
 
