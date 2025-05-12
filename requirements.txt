@@ -1,0 +1,3 @@
+Flask>=2.0
+paramiko>=2.7 # Or a more recent stable version
+# ipaddress, platform, subprocess, socket, os, re, concurrent.futures, datetime, sqlite3 are standard libraries
